@@ -4,9 +4,9 @@ requests.packages.urllib3.disable_warnings()
 
 # -- http basic auth --
 
-account = 'https://jelle-test-store.myshopify.com/admin/gift_cards.json'
-key = 'e068ad3ab6bbe142190672f7111926ef'
-pwd = 'cd4d227b6beb409b18ce3bc2fdafbf98'
+account = 'XXX.myshopify.com/admin/gift_cards.json'
+key = 'apikey'
+pwd = 'apipwd'
 
 # -- end http basic auth --
 
