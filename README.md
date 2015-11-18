@@ -1,2 +1,3 @@
 # gc_gen
-gift card generator
+
+gift card generator for Shopify Plus 
