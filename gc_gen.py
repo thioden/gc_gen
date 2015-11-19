@@ -1,14 +1,19 @@
 import requests, random
 from time import sleep
+from ConfigParser import SafeConfigParser
+
+# suppress urllib3 errors
 requests.packages.urllib3.disable_warnings()
 
-# -- http basic auth --
+# -- read login credentials  --
+creds = SafeConfigParser()
+creds.read('credentials.ini')
 
-account = 'https://jelle-test-store.myshopify.com/admin/gift_cards.json'
-key = 'e068ad3ab6bbe142190672f7111926ef'
-pwd = 'cd4d227b6beb409b18ce3bc2fdafbf98'
+account = creds.get('main', 'account')
+key = creds.get('main', 'key') 
+pwd = creds.get('main', 'pwd') 
 
-# -- end http basic auth --
+# -- end login creds section --
 
 # -- begin functions section --
 
@@ -50,8 +55,8 @@ def get_input(question):
          print("That's not a number.")      # warn if failed
     return(value)
 
-def send_to_store(ac,payload,apikey,apipwd):
-	s = requests.post(ac, json=payload,  auth=(apikey,apipwd))
+def send_to_store(store,payload,apikey,apipwd):
+	s = requests.post(store, json=payload,  auth=(apikey,apipwd))
 	if s.status_code != 201:
 		print s.status_code
 	sleep(0.05)
@@ -61,19 +66,19 @@ def send_to_store(ac,payload,apikey,apipwd):
 
 # -- main --
 
+# get info from user
 gc_codes = get_input("How many gift cards would you like to create: ")
 gc_len = get_input("How long should the gift card code be: ")
 gc_ran = get_input("How long should the random part be (multiple of 4 preferred): ")
 gc_value = get_input("What is the gift card $ value: ")
 
+# process info
 q = 1
 while q <= gc_codes:
 	x = code(gc_len,gc_ran,q)
 	print x
-	gc_data = { "gift_card": { "note": "auto generated", "initial_value": gc_value, "code": x } }
-#	s = requests.post(account, json=gc_data,  auth=(key,pwd))
-#	  print s.status_code
-#	sleep(0.05)
+	gc_data = { "gift_card": { "note": "auto generated 2", "initial_value": gc_value, "code": x } }
+	send_to_store(account,gc_data,key,pwd)                    
 	q += 1
 
 # -- end main --
