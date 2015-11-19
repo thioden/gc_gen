@@ -4,9 +4,9 @@ requests.packages.urllib3.disable_warnings()
 
 # -- http basic auth --
 
-account = 'https://XXX.myshopify.com/admin/gift_cards.json'
-key = 'apikey'
-pwd = 'apipwd'
+account = 'https://jelle-test-store.myshopify.com/admin/gift_cards.json'
+key = 'e068ad3ab6bbe142190672f7111926ef'
+pwd = 'cd4d227b6beb409b18ce3bc2fdafbf98'
 
 # -- end http basic auth --
 
@@ -49,6 +49,13 @@ def get_input(question):
       except ValueError:                    # catch
          print("That's not a number.")      # warn if failed
     return(value)
+
+def send_to_store(ac,payload,apikey,apipwd):
+	s = requests.post(ac, json=payload,  auth=(apikey,apipwd))
+	if s.status_code != 201:
+		print s.status_code
+	sleep(0.05)
+	return()
 
 # -- end functions section --
 
