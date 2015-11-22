@@ -5,10 +5,12 @@ Experimental python gift card generator for Shopify Plus
 Uses Requests and Bottle 
 
 **File structure**
-'''./GC-GEN
-  gc_web_gen.py
-  gc_gen.py
-  credentials.ini'''
+```
+./GC-GEN 
+  gc_web_gen.py 
+  gc_gen.py 
+  credentials.ini 
+````
 
 Version list
 - v0.1   command line use only - *no* error checking
