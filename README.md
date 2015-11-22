@@ -11,8 +11,11 @@ Uses Requests and Bottle
   credentials.ini
 
 v0.1   command line use only - *no* error checking
+
 v0.1.1 command line use only - error checking added
+
 v0.1.2 command line use only - error checking, improved code generation
+
 V0.2   Web interface only - *no* error checking, improved code generation
 
 
