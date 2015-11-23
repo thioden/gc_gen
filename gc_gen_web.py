@@ -13,7 +13,8 @@ key = creds.get('main', 'key')
 pwd = creds.get('main', 'pwd') 
 # -- end login creds section --
 
- # -- begin functions section --
+# -- begin functions section --
+
 def ins_dash(string, index):
     return string[:index] + '-' + string[index:]
 
@@ -59,23 +60,21 @@ def send_to_store(store,payload,apikey,apipwd):
     sleep(0.05)
     return()
 
+# -- web server code --
 
-      
-
-
-@route('/login')
-def login():
+@route('/cards')
+def get_info():
     return '''
-        <form action="/login" method="post">
-            Nr of cards to be created:  <input name="gc_cards_nr" type="text" />
-            Length of cards : <input name="gc_cards_length" type="text" />
-            Value of cards : <input name="gc_cards_value" type="text" />
+        <form action="/cards" method="post">
+            Nr of cards to be created:  <input name="gc_cards_nr" type="text" /></br>
+            Length of cards : <input name="gc_cards_length" type="text" /></br>
+            Value of cards : <input name="gc_cards_value" type="text" /></br>
             <input value="Submit" type="submit" />
         </form>
     '''
 
-@route('/login', method='POST')
-def do_login():
+@route('/cards', method='POST')
+def process_info():
 
     nr_cards = request.forms.get('gc_cards_nr')
     length_cards = request.forms.get('gc_cards_length')
@@ -90,12 +89,12 @@ def do_login():
     print ' ' + nr_cards + ' ' + value_cards
     q = 1
     while q <= int_nr_cards:
-        x = code(int_length_cards,gc_ran,int_nr_cards)
+        x = code(int_length_cards,gc_ran,q)
         print x
-        gc_data = { "gift_card": { "note": "auto generated 2", "initial_value": int_value_cards, "code": x } }
+        gc_data = { "gift_card": { "note": "auto web generated", "initial_value": int_value_cards, "code": x } }
         send_to_store(account,gc_data,key,pwd)                    
         q += 1 
-
+    return "<p>Your cards have been created.</p>"
 
 
 run(host='localhost', port=8080, debug=True)
