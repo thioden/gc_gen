@@ -101,5 +101,5 @@ def process_info():
     return "<p>Your cards have been created.</p>"
 
 
-bottle.run(host='0.0.0.0', port=argv[1])
+bottle.run(host='0.0.0.0', port=80)
 
