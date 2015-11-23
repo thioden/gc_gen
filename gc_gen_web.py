@@ -61,7 +61,7 @@ def send_to_store(store,payload,apikey,apipwd):
     return()
 
 # -- web server code --
-
+@route('/')
 @route('/cards')
 def get_info():
     return '''
