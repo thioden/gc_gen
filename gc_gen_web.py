@@ -61,9 +61,9 @@ def send_to_store(store,payload,apikey,apipwd):
     return()
 
 # -- web server code --
-@route('/')
-def greet(name='Stranger'):
-    return 'I am alive!'
+@get('/')
+def index():
+    return 'I am alive'
 
 @route('/cards')
 def get_info():
