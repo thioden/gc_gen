@@ -1,6 +1,6 @@
 
 import requests, random
-from bottle import route, request, run
+from bottle import route, request, run, get
 from time import sleep
 from ConfigParser import SafeConfigParser
 
@@ -61,9 +61,9 @@ def send_to_store(store,payload,apikey,apipwd):
     return()
 
 # -- web server code --
-@route('/')
+@get('/')
 def index():
-    return 'I am alive'
+    return 'I am alive!'
 
 @route('/cards')
 def get_info():
@@ -100,4 +100,4 @@ def process_info():
     return "<p>Your cards have been created.</p>"
 
 
-run(host='0.0.0.0', port=8080, debug=True)
+run(host='localhost', port=8080, debug=True)
