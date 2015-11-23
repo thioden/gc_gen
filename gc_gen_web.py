@@ -1,6 +1,6 @@
 
-import requests, random, bottle
-from bottle import route, request, run, get
+import requests, random, bottle, os
+from bottle import route, request, run, get, default_app
 from time import sleep
 from ConfigParser import SafeConfigParser
 from sys import argv
