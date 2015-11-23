@@ -70,6 +70,9 @@ def index():
 def get_info():
     return '''
         <form action="/cards" method="post">
+            Shopify account url (with endpoint)  <input name="gc_gen_account" type="text" /></br>
+            API KEY:  <input name="gc_gen_api_key" type="text" /></br>
+            API PWD:  <input name="gc_gen_api_pwd" type="text" /></br>
             Nr of cards to be created:  <input name="gc_cards_nr" type="text" /></br>
             Length of cards : <input name="gc_cards_length" type="text" /></br>
             Value of cards : <input name="gc_cards_value" type="text" /></br>
@@ -80,14 +83,14 @@ def get_info():
 @route('/cards', method='POST')
 def process_info():
 
-    nr_cards = request.forms.get('gc_cards_nr')
-    length_cards = request.forms.get('gc_cards_length')
-    value_cards = request.forms.get('gc_cards_value')
-
+    int_nr_cards = int(request.forms.get('gc_cards_nr'))
+    int_length_cards = int(request.forms.get('gc_cards_length'))
+    int_value_cards = int(request.forms.get('gc_cards_value'))
+'''
     int_nr_cards = int(nr_cards)
     int_length_cards = int(length_cards)
     int_value_cards = int(value_cards)
-
+'''
     gc_ran = int_length_cards - (len(str(int_nr_cards))+1)   
 
     print ' ' + nr_cards + ' ' + value_cards
