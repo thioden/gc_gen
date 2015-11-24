@@ -6,6 +6,7 @@ from ConfigParser import SafeConfigParser
 from sys import argv
 
 # -- read login credentials  --
+r_filev = False
 creds = SafeConfigParser()
 creds.read('credentials.ini')
 
@@ -66,8 +67,12 @@ def send_to_store(store,payload,apikey,apipwd):
 def index():
     return 'I am alive!'
 
+
 @route('/cards')
+@route('/cards/<creds_file>')
 def get_info():
+    if creds_file = 'true':
+        r_file = True
     return '''
         <form action="/cards" method="post">
             Shopify account url (with endpoint)  <input name="gc_gen_account" type="text" /></br>
@@ -99,7 +104,10 @@ def process_info():
         x = code(int_length_cards,gc_ran,q)
         print x
         gc_data = { "gift_card": { "note": "auto web generated", "initial_value": int_value_cards, "code": x } }
-        send_to_store(account,gc_data,key,pwd)                    
+        if r_file:
+            send_to_store(account,gc_data,key,pwd)
+        else 
+            send_to_store(gc_gen_account,gc_data,gc_gen_api_key,gc_gen_api_pwd)
         q += 1 
     return "<p>Your cards have been created.</p>"
 

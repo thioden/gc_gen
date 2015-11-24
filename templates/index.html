@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/result" method="post">
+        <table>
+                <tr>
+                        <td align="right">Convert From:</td>
+                                <td align="left"><select name="convert_from">
+                                <option selected="selected" value="EUR">Euro</option>
+                                {%- for k, v in values.items() %}
+                        <option value={{k}}>{{v}}</option>
+                                {%- endfor %}
+                                </select></td>
+                        </tr>
+                        <tr>
+                                <td align="right">Convert To:</td>
+                                <td align="left"><select name="convert_to">
+                                <option selected="selected" value="USD">US Dollar</option>
+                                {%- for k, v in values.items() %}
+                        <option value={{k}}>{{v}}</option>
+                                {%- endfor %}
+                                </select></td>
+                        </tr>
+                        <tr>
+                                <td align="right">Value to convert:</td>
+                                <td align="left"><input name="value_to_convert"></td>
+                        </tr>
+                        <tr>
+                                <td></td>
+                <td><input value="Convert" type="submit" /></td>
+                </tr>
+            </table>
+    </form>
+{% endblock %}
