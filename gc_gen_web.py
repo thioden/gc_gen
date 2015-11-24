@@ -69,7 +69,7 @@ def index():
 
 
 @get('/cards')
-@get('/cards/<creds_file>')
+@('/cards/<creds_file>')
 def get_info():
     if creds_file == 'true':
         r_file = True
@@ -111,6 +111,7 @@ def process_info():
         q += 1 
     return "<p>Your cards have been created.</p>"
 
-
+run(host="localhost", port=8080)
+'''
 run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
+'''
