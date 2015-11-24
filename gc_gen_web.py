@@ -69,7 +69,7 @@ def index():
 
 
 @get('/cards')
-@('/cards/<creds_file>')
+@get('/cards/<creds_file>')
 def get_info():
     if creds_file == 'true':
         r_file = True
