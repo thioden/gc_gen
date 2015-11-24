@@ -3,30 +3,32 @@
 <form action="/result" method="post">
         <table>
                 <tr>
-                        <td align="right">Convert From:</td>
-                                <td align="left"><select name="convert_from">
-                                <option selected="selected" value="EUR">Euro</option>
-                                {%- for k, v in values.items() %}
-                        <option value={{k}}>{{v}}</option>
-                                {%- endfor %}
-                                </select></td>
+                        <td align="right">Shopify account url (with endpoint):</td>
+                                <td align="left"><input name="gc_gen_account" type="text" /></td>
                         </tr>
                         <tr>
-                                <td align="right">Convert To:</td>
-                                <td align="left"><select name="convert_to">
-                                <option selected="selected" value="USD">US Dollar</option>
-                                {%- for k, v in values.items() %}
-                        <option value={{k}}>{{v}}</option>
-                                {%- endfor %}
-                                </select></td>
+                                <td align="right">API KEY:</td>
+                                <td align="left"><input name="gc_gen_api_key" type="text" /></td>
                         </tr>
                         <tr>
-                                <td align="right">Value to convert:</td>
-                                <td align="left"><input name="value_to_convert"></td>
+                                <td align="right">API PWD:</td>
+                                <td align="left"><input name="gc_gen_api_pwd" type="text" /></td>
+                        </tr>
+                        <tr>
+                                <td align="right">Nr of cards to be created:</td>
+                                <td align="left"><input name="gc_cards_nr" type="text" /></td>
+                        </tr>
+                        <tr>
+                                <td align="right">Length of cards :</td>
+                                <td align="left"><input name="gc_cards_length" type="text" /></td>
+                        </tr>
+                        <tr>
+                                <td align="right">Value of cards :</td>
+                                <td align="left"><input name="gc_cards_value" type="text" /></td>
                         </tr>
                         <tr>
                                 <td></td>
-                <td><input value="Convert" type="submit" /></td>
+                <td><input value="Submit" type="submit" /></td>
                 </tr>
             </table>
     </form>

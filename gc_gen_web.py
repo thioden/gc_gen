@@ -1,6 +1,6 @@
 
 import requests, random, bottle, os
-from bottle import route, request, run, get, default_app
+from bottle import route, request, run, get, default_app, post, static_file, TEMPLATE_PATH, jinja2_view
 from time import sleep
 from ConfigParser import SafeConfigParser
 from sys import argv
@@ -17,6 +17,8 @@ account = creds.get('main', 'account')
 key = creds.get('main', 'key') 
 pwd = creds.get('main', 'pwd') 
 # -- end login creds section --
+
+TEMPLATE_PATH[:] = ['templates']
 
 # -- begin functions section --
 
@@ -66,13 +68,41 @@ def send_to_store(store,payload,apikey,apipwd):
     return()
 
 # -- web server code --
+
+@route('/static/css/<filename>')
+def cssget(filename):
+    return static_file(filename, root="./static/css")
+
+@route('/static/js/<filename>')
+def javaget(filename):
+    return static_file(filename, root="./static/js")
+
+@route('/static/fonts/<filename>')
+def fontsget(filename):
+    return static_file(filename, root="./static/fonts")
+
+@route('/static/js/vendor/<filename>')
+def modernget(filename):
+    return static_file(filename, root="./static/js/vendor")
+
+@route('/static/img/<filename>')
+def faviconget(filename):
+    return static_file(filename, root="./static/img")
 @get('/')
 def index():
     return 'I am alive!'
 
+@route('/', name='home', method='GET')
+@get('/<creds_file>')
+@jinja2_view('index.html')
+def index(creds_file = None):
+    global r_file
+    if creds_file == 'true':
+        r_file = True
+    return {'title':'GC-GEN'}
 
-@get('/cards')
-@get('/cards/<creds_file>')
+@get('/index')
+@get('/index/<creds_file>')
 def get_info(creds_file = None):
     global r_file
     if creds_file == 'true':
@@ -80,31 +110,27 @@ def get_info(creds_file = None):
         print 'r_file true'
     print creds_file
     return '''
-        <form action="/cards" method="post">
-            Shopify account url (with endpoint)  <input name="gc_gen_account" type="text" /></br>
-            API KEY:  <input name="gc_gen_api_key" type="text" /></br>
-            API PWD:  <input name="gc_gen_api_pwd" type="text" /></br>
-            Nr of cards to be created:  <input name="gc_cards_nr" type="text" /></br>
-            Length of cards : <input name="gc_cards_length" type="text" /></br>
-            Value of cards : <input name="gc_cards_value" type="text" /></br>
-            <input value="Submit" type="submit" />
+        <form action="/convert" method="post">
+                <p>Shopify account url (with endpoint)  <input name="gc_gen_account" type="text" /></p>
+                <p>API KEY:  <input name="gc_gen_api_key" type="text" /></p>
+                <p>API PWD:  <input name="gc_gen_api_pwd" type="text" /></p>
+                <p>Nr of cards to be created:  <input name="gc_cards_nr" type="text" /></p>
+                <p>Length of cards : <input name="gc_cards_length" type="text" /></p>
+                <p>Value of cards : <input name="gc_cards_value" type="text" /></p>
+            <input value="convert" type="submit" />
         </form>
     '''  
-
-@route('/cards', method='POST')
-def process_info():
+'''
+@post('/convert')
+def convert():
 
     int_nr_cards = int(request.forms.get('gc_cards_nr'))
     int_length_cards = int(request.forms.get('gc_cards_length'))
     int_value_cards = int(request.forms.get('gc_cards_value'))
-    '''
-    int_nr_cards = int(nr_cards)
-    int_length_cards = int(length_cards)
-    int_value_cards = int(value_cards)
-    '''
+
     gc_ran = int_length_cards - (len(str(int_nr_cards))+1)   
 
-    #print ' ' + nr_cards + ' ' + value_cards
+    print 'processing'
     q = 1
     while q <= int_nr_cards:
         x = code(int_length_cards,gc_ran,q)
@@ -118,7 +144,33 @@ def process_info():
         q += 1 
     return "<p>Your cards have been created.</p>"
 '''
+
+@route('/result', method='POST')
+@jinja2_view('result.html')
+def result():
+    int_nr_cards = int(request.forms.get('gc_cards_nr'))
+    int_length_cards = int(request.forms.get('gc_cards_length'))
+    int_value_cards = int(request.forms.get('gc_cards_value'))
+
+    gc_ran = int_length_cards - (len(str(int_nr_cards))+1)   
+
+    print 'processing'
+    q = 1
+    while q <= int_nr_cards:
+        x = code(int_length_cards,gc_ran,q)
+        print x
+        gc_data = { "gift_card": { "note": "auto web generated", "initial_value": int_value_cards, "code": x } }
+        print r_file
+        if r_file:
+            send_to_store(account,gc_data,key,pwd)
+        else: 
+            send_to_store(gc_gen_account,gc_data,gc_gen_api_key,gc_gen_api_pwd)
+        q += 1 
+    return "<p>Your cards have been created.</p>"
+
+'''
 run(host="localhost", port=8080)
 '''
+
 run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
