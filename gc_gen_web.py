@@ -117,8 +117,8 @@ def process_info():
             send_to_store(gc_gen_account,gc_data,gc_gen_api_key,gc_gen_api_pwd)
         q += 1 
     return "<p>Your cards have been created.</p>"
-
+'''
 run(host="localhost", port=8080)
 '''
 run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-'''
+
