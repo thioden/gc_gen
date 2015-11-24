@@ -86,11 +86,11 @@ def process_info():
     int_nr_cards = int(request.forms.get('gc_cards_nr'))
     int_length_cards = int(request.forms.get('gc_cards_length'))
     int_value_cards = int(request.forms.get('gc_cards_value'))
-'''
+    '''
     int_nr_cards = int(nr_cards)
     int_length_cards = int(length_cards)
     int_value_cards = int(value_cards)
-'''
+    '''
     gc_ran = int_length_cards - (len(str(int_nr_cards))+1)   
 
     print ' ' + nr_cards + ' ' + value_cards
