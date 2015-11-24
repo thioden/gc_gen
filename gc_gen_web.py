@@ -5,8 +5,11 @@ from time import sleep
 from ConfigParser import SafeConfigParser
 from sys import argv
 
+# suppress urllib3 errors
+requests.packages.urllib3.disable_warnings()
+
 # -- read login credentials  --
-r_filev = False
+r_file = False
 creds = SafeConfigParser()
 creds.read('credentials.ini')
 
@@ -70,9 +73,12 @@ def index():
 
 @get('/cards')
 @get('/cards/<creds_file>')
-def get_info():
+def get_info(creds_file = None):
+    global r_file
     if creds_file == 'true':
         r_file = True
+        print 'r_file true'
+    print creds_file
     return '''
         <form action="/cards" method="post">
             Shopify account url (with endpoint)  <input name="gc_gen_account" type="text" /></br>
@@ -83,7 +89,7 @@ def get_info():
             Value of cards : <input name="gc_cards_value" type="text" /></br>
             <input value="Submit" type="submit" />
         </form>
-    '''
+    '''  
 
 @route('/cards', method='POST')
 def process_info():
@@ -98,12 +104,13 @@ def process_info():
     '''
     gc_ran = int_length_cards - (len(str(int_nr_cards))+1)   
 
-    print ' ' + nr_cards + ' ' + value_cards
+    #print ' ' + nr_cards + ' ' + value_cards
     q = 1
     while q <= int_nr_cards:
         x = code(int_length_cards,gc_ran,q)
         print x
         gc_data = { "gift_card": { "note": "auto web generated", "initial_value": int_value_cards, "code": x } }
+        print r_file
         if r_file:
             send_to_store(account,gc_data,key,pwd)
         else: 
