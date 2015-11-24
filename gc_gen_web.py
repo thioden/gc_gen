@@ -71,7 +71,7 @@ def index():
 @route('/cards')
 @route('/cards/<creds_file>')
 def get_info():
-    if creds_file = 'true':
+    if creds_file == 'true':
         r_file = True
     return '''
         <form action="/cards" method="post">
