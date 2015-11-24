@@ -106,7 +106,7 @@ def process_info():
         gc_data = { "gift_card": { "note": "auto web generated", "initial_value": int_value_cards, "code": x } }
         if r_file:
             send_to_store(account,gc_data,key,pwd)
-        else 
+        else: 
             send_to_store(gc_gen_account,gc_data,gc_gen_api_key,gc_gen_api_pwd)
         q += 1 
     return "<p>Your cards have been created.</p>"
